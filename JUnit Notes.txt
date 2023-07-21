@@ -1,0 +1,256 @@
+==========================
+What is Unit Testing ?
+==========================
+
+=> The process of testing individual units of software is called as Unit testing
+
+=> Unit means piece of code ( we can consider one method as one unit )
+
+=> The purpose of Unit Testing is to verify the behaviour of our code and fix if there are any bugs
+
+=> The main aim of unit testing is to provide high quality code (bug free code)
+
+=> Developers are responsible to perform Unit Testing
+
+=> Unit Testing will happen in development phase only
+
+=================
+What is Junit ?
+=================
+
+-> Free & Open source software
+
+-> Used for java projects unit testing
+
+-> Releasedi in 1997
+
+-> Latest Version of Junit is 5.x
+
+Note: It is used for only Java projects and it is developed using Java.
+
+
+1) Junit Jupiter : Programming Support + New Annotations
+
+2) JUnit Vintage : Backward compatability (Junit 3 and Junit 4 )
+
+3) Junit Platform  : Environment to run our Junit test cases
+
+==================
+Junit Annotations
+==================
+
+@Test
+@BeforeEach
+@AfterEach
+@BeforeAll
+@AfterAll
+@ParameterizedTest
+ -->@ValueSource
+ -->@CsvSource
+ -->@CsvFileSource
+ -->@MethodSource
+ -->@RepeatedTest
+ -->@DisableSource
+
+
+==================
+Junit Assertions
+=================
+
+-> Assertions are used to compare expected results with actual results
+
+-> Assertions class provided several static methods
+
+assertEquals( )        (ExpectedValue , ActualValue)
+assertNotEquals ( )
+assertNull ( )
+assertNotNull ( )
+assertThrows ( )
+
+
+
+
+======================================================
+ADD BELOW DEPENDENCIES IN PROJECT TO WORK WITH JUNIT
+======================================================
+
+
+
+<!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin -->
+        <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>2.22.2</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-params -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>5.10.0-M1</version>
+            <scope>test</scope>
+        </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/org.junit.vintage/junit-vintage-engine -->
+        <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <version>5.10.0-M1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.junit.platform/junit-platform-runner -->
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-runner</artifactId>
+            <version>1.10.0-M1</version>
+            <scope>test</scope>
+        </dependency>
+
+===========================================================================
+===========================================================================
+
+
+
+==========
+Mocking
+==========
+
+=> The process of creating substitute object for real object is called as Mocking
+
+		Ex:  Service layer methods is calling DAO layer method
+
+=> When we are performing Unit testing for service then only service method code we should test (DAO code shouldn't execute).
+
+Note: Here we will create Mock object for DAO and inject into service.
+
+=> We have several Mock frameworks to implement Mocking.
+
+1) EasyMock
+2) PowerMock
+3) Wiremock
+4) Mockito
+
+
+
+
+1) What is Unit Testing ?
+
+2) Why Unit Testing ?
+
+3) When to perform Unit Testing ?
+
+4) What is Junit ?
+
+5) JUnit annotations 
+
+6) JUnit Assertions
+
+7) What is Mocking 
+
+8) Mock Frameworks
+
+9) Creating Mock Object and Define Mock Object Behaviour
+
+=========================================
+How to perform Unit Testing For REST API
+=========================================
+
+
+@WebMvcTest : It is represent which class we are testing and it provides required environment for that
+
+
+@MockBean : It is used to create Mock object for class / interface
+
+
+MockMvc : This class provides methods to make HTTP Request
+
+
+
+
+@WebMvcTest(value = WelcomeRestController.class)
+public class WelcomeRestControllerTest {
+
+	@MockBean
+	private WelcomeService service;
+
+	@Autowired
+	private MockMvc mvc;
+
+	@Test
+	public void welcomeMsgTest() throws Exception {
+
+		when(service.getWelcomeMsg()).thenReturn("Welcome to Ashok IT...");
+
+		MockHttpServletRequestBuilder reqBuilder = MockMvcRequestBuilders.get("/welcome");
+
+		MvcResult mvcResult = mvc.perform(reqBuilder).andReturn();
+
+		MockHttpServletResponse response = mvcResult.getResponse();
+
+		int statusCode = response.getStatus();
+
+		assertEquals(200, statusCode);
+	}
+}
+
+========================
+What is Code Coverage ?
+========================
+
+=> It is the process of identifying how many lines of code is tested as part of Unit Testing in our project.
+
+Note: Industry Standard is 80% of coverage.
+
+=> We can use Jacocco plugin to see code coverage Report.
+
+=> Run the project mvn clean test to genarate jacoco code file
+
+		in target folder
+			site
+				jacoco
+					html  file will be available for code coverage
+
+========================Jacocco Plugin =============
+<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.2</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+</plugin>
+
+
+=========================================================
+
+
+=> When we join in a project, first 3 Months they will assign below tasks for you
+
+1) Sonar Issues Fixing
+
+2) JUnits Implementation
+
+3) Code Coverage Improvement
+
+
+
+
+
+
+
+
+
+
